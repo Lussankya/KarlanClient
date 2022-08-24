@@ -1,0 +1,47 @@
+﻿@model IEnumerable<KarlanTravelClient.Models.Tour>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/_LayoutPage1.cshtml";
+}
+<body>
+    <div class="row row-flex">
+    @foreach (var item in Model)
+    {
+
+        <div class="card col-md-3 col-xs-6 col-480-12" style="width: 18rem;">
+            <img src=@item.TourImage class="card-img-top" alt="@item.TourName">
+            <div class="card-body">
+                <h5 class="card-title">@item.TourName</h5>
+                <p class="card-text">
+                    @if (item.CategoryId1 != "UNCG")
+                    {
+                        @item.Category.CategoryName
+                    }
+
+                    @if (item.CategoryId2 != "UNCG")
+                    {
+                        @item.Category1.CategoryName
+                    }
+                </p>
+                <p class="card-text">@item.TourImage</p>
+                <p class="card-text">
+                    <i class="fa fa-clock-o" aria-hidden="true"></i>
+                    From @item.TourStart to @item.TourEnd
+                </p>
+                <p class="card-text">
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    @item.TourRating/5
+                </p>
+                <p class="card-text">
+                    <i class="fa fa-usd" aria-hidden="true"></i>
+                    Price: @item.TourPrice
+                </p>
+                @Html.ActionLink("Detail", "Detail", new { id = item.TourId }, new { @class = "btn btn - primary" })
+                @*<a href="#" class="">Go somewhere</a>*@
+            </div>
+        </div>
+    }
+
+</div>
+</body>
