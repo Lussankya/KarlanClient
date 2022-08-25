@@ -4,16 +4,25 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/_LayoutPage1.cshtml";
 }
-<body style="padding-top:70px">
+<style>
+    .detailBtn{
+        background-color:red;
+        color:white;
+        margin-top:1%
+           
+    }
+</style>
+<body >
     <div>
 
 
-        <div class="row">
+        <div class="row" >
             @foreach (var item in Model)
             {
+                <div class="col-md-4 col-sm-6 col-480-12">
 
-                <div class="card col-md-3 col-xs-6 col-480-12" style="width: 18rem;">
-                    <img src="@item.TourImage" class="card-img-top" alt="@item.TourName">
+                <div class="card " style="width: 80%; display:block; margin:40px auto " >
+                    <img src="@item.TourImage" class="card-img-top" alt="@item.TourName" height="320">
                     <div class="card-body">
                         <h5 class="card-title">@item.TourName</h5>
                         <p class="card-text">
@@ -21,16 +30,16 @@
                             {
                                 @item.Category.CategoryName
                             }
-
+                            -
                             @if (item.CategoryId2 != "UNCG")
                             {
                                 @item.Category1.CategoryName
-                            } f1
+                            }
                         </p>
-                        <p class="card-text">@item.TourImage</p>
+                        
                         <p class="card-text">
                             <i class="fa fa-clock-o" aria-hidden="true"></i>
-                            From @item.TourStart to @item.TourEnd
+                            From @item.TourStart.ToString("HH:mm dd/MM/yyyy") to @item.TourEnd.ToString("HH:mm dd/MM/yyyy")
                         </p>
                         <p class="card-text">
                             <i class="fa fa-star" aria-hidden="true"></i>
@@ -38,12 +47,13 @@
                         </p>
                         <p class="card-text">
                             <i class="fa fa-usd" aria-hidden="true"></i>
-                            Price: @item.TourPrice
+                            Price: @((int)item.TourPrice) VND
                         </p>
-                        @Html.ActionLink("Detail", "Detail", "Tour", new { id = item.TourId }, new { @class = "btn btn - primary" })
+                        @Html.ActionLink("Detail", "Detail", "Tour", new { id = item.TourId }, new { @class = "btn btn - primary detailBtn" })
                         @*<a href="#" class="">Go somewhere</a>*@
-                    </div>
+</div>
                 </div>
+            </div>
             }
 
         </div>

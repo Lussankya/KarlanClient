@@ -15,13 +15,14 @@ namespace KarlanTravelClient.Controllers
         public ActionResult Index()
         {
             var tour = db.Tours.Include(t => t.Category).Include(t => t.Category1);
+            
             return View(tour.ToList());
         }
-        public ActionResult Detail()
+        public ActionResult Detail(string id)
         {
+            var tourDetail = db.TourDetails.Include(t => t.Facility).Include(t => t.TouristSpot).Include(t => t.Tour).Where(t => t.TourId == id);
 
-
-            return View();
+            return View(tourDetail.ToList());
         }
     }
 }

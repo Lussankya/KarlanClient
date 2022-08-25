@@ -1,4 +1,5 @@
-﻿
+﻿@model IEnumerable<KarlanTravelClient.Models.TourDetail>
+
 @{
     ViewBag.Title = "Detail";
     Layout = "~/Views/_LayoutPage1.cshtml";
@@ -6,3 +7,76 @@
 
 <h2>Detail</h2>
 
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Facility.FacilityName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Tour.TourName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TouristSpot.TouristSpotName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TourDetailName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Activity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActivityTimeStart)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActivityTimeEnd)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ActivityNote)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Deleted)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Facility.FacilityName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Tour.TourName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TouristSpot.TouristSpotName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TourDetailName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Activity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ActivityTimeStart)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ActivityTimeEnd)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ActivityNote)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Deleted)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.TourDetailId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.TourDetailId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.TourDetailId })
+        </td>
+    </tr>
+}
+
+</table>
