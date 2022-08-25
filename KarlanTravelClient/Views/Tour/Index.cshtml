@@ -13,7 +13,7 @@
             {
 
                 <div class="card col-md-3 col-xs-6 col-480-12" style="width: 18rem;">
-                    <img src="~/assets/images/T_HNtoCB01.png" class="card-img-top" alt="@item.TourName">
+                    <img src="@item.TourImage" class="card-img-top" alt="@item.TourName">
                     <div class="card-body">
                         <h5 class="card-title">@item.TourName</h5>
                         <p class="card-text">
@@ -25,7 +25,7 @@
                             @if (item.CategoryId2 != "UNCG")
                             {
                                 @item.Category1.CategoryName
-                            }
+                            } f1
                         </p>
                         <p class="card-text">@item.TourImage</p>
                         <p class="card-text">
@@ -40,7 +40,7 @@
                             <i class="fa fa-usd" aria-hidden="true"></i>
                             Price: @item.TourPrice
                         </p>
-                        @Html.ActionLink("Detail", "Detail", new { id = item.TourId }, new { @class = "btn btn - primary" })
+                        @Html.ActionLink("Detail", "Detail", "Tour", new { id = item.TourId }, new { @class = "btn btn - primary" })
                         @*<a href="#" class="">Go somewhere</a>*@
                     </div>
                 </div>

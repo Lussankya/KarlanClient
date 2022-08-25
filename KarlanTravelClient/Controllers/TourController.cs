@@ -17,5 +17,11 @@ namespace KarlanTravelClient.Controllers
             var tour = db.Tours.Include(t => t.Category).Include(t => t.Category1);
             return View(tour.ToList());
         }
+        public ActionResult Detail()
+        {
+
+
+            return View();
+        }
     }
 }
