@@ -9,6 +9,8 @@ namespace KarlanTravelClient.Models
     [Table("Tour")]
     public partial class Tour
     {
+
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Tour()
         {
