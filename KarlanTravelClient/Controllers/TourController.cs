@@ -23,6 +23,22 @@ namespace KarlanTravelClient.Controllers
             var tourDetail = db.TourDetails.Include(t => t.Facility).Include(t => t.TouristSpot).Include(t => t.Tour).Where(t => t.TourId == id);
 
             return View(tourDetail.ToList());
+
         }
+        // GET: Locations
+        [HttpGet]
+        public ActionResult map()
+        {
+            var q = (from a in db.TouristSpots
+                     
+                     select new { a.Cord_Lat, a.Cord_Long, a.TouristSpotName });
+            
+            return Json(q, JsonRequestBehavior.AllowGet);
+        }
+
+
+
+
+
     }
 }

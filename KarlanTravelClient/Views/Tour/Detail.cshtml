@@ -3,20 +3,28 @@
 @{
     ViewBag.Title = "Detail";
     Layout = "~/Views/_LayoutPage1.cshtml";
+
 }
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
 <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
 <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.js"></script>
 
 
 <div class="row">
     <div class="col-lg-1"></div>
     <div class="col-lg-4">
+        @foreach (var item in Model)
+        {
+            <img src="@item.Tour.TourImage" class="card-img-top" style="margin-top:10%">
+            break;
+            
+        }
+    <p>@Url.Action("Home", "Tour/map")</p>
 
-        <img src="/assets/images/T_HNtoCB01.png" class="card-img-top" style="margin-top:10%">
+        <script>GetAllCards()</script>
 
         <div class="map mt-5 pt-md-5">
             <div id="map" style="height:500px;"></div>
@@ -25,8 +33,6 @@
     <div class="col-lg-6">
         <table class="table">
             <tr>
-
-
                 <th>
                     Activity
                 </th>
@@ -52,6 +58,12 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.ActivityTimeEnd)
                     </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TouristSpot.Cord_Lat)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.TouristSpot.Cord_Long)
+                    </td>
 
                 </tr>
             }
@@ -70,6 +82,31 @@
     }).addTo(map);
     var marker = L.marker([21.001975258290276, 105.8031678199768]).addTo(map).bindPopup('Our Location.')
         .openPopup();;
+    function GetAllCards() {
+        $.ajax({
+            type: "GET",
+            url: '@Url.Action("Home", "https://localhost:44348/Tour/map")',
+            dataType: 'json',
+            
+            success: function (data) {
+                console.log(data);
+                $.each(data, function (i, item) {
+
+                    var lat = item.Cord_Lat;
+                    var long = item.Cord_Long;
+                    console.log(lat);
+                    console.log(long);
+                    var marker = L.marker([lat, long]).addTo(map);
+
+                });
+
+
+            }
+
+        })
+    }
+
+
     L.Routing.control({
         show: false,
         waypoints: [
