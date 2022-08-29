@@ -1,13 +1,6 @@
 {
   "ExpandedNodes": [
-    "",
-    "\\KarlanTravelClient",
-    "\\KarlanTravelClient\\Controllers",
-    "\\KarlanTravelClient\\Views",
-    "\\KarlanTravelClient\\Views\\Home",
-    "\\KarlanTravelClient\\Views\\Shared",
-    "\\KarlanTravelClient\\Views\\Tour"
+    ""
   ],
-  "SelectedNode": "\\KarlanTravelClient\\KarlanTravelClient.sln",
   "PreviewInSolutionExplorer": false
 }

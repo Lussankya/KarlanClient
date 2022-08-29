@@ -21,8 +21,8 @@ namespace KarlanTravelClient.Controllers
         public ActionResult Detail(string id)
         {
             var tourDetail = db.TourDetails.Include(t => t.Facility).Include(t => t.TouristSpot).Include(t => t.Tour).Where(t => t.TourId == id);
-
-            return View(tourDetail.ToList());
+            
+            return View(tourDetail.ToList()) ;
         }
     }
 }

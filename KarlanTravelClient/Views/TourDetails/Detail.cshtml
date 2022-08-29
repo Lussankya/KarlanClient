@@ -1,0 +1,61 @@
+﻿@model IEnumerable<KarlanTravelClient.Models.TourDetail>
+
+@{
+    ViewBag.Title = "Detail";
+    Layout = "~/Views/_LayoutPage1.cshtml";
+}
+
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+<link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+<body>
+    <div>
+
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-lg-1"></div>
+                <div class="col-lg-4">
+
+                    <img src="@item.Tour.TourImage" class="card-img-top" style="margin-top:10%">
+
+                    <div class="map mt-5 pt-md-5">
+                        <div id="map" style="height:500px;"></div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+
+                    Activity <br />  @Html.DisplayFor(modelItem => item.Activity)
+
+                    Starting time  <br />  @Html.DisplayFor(modelItem => item.ActivityTimeStart)
+
+                    Ending time <br/> @Html.DisplayFor(modelItem => item.ActivityTimeEnd)
+
+
+                </div>
+
+                <div class="col-lg-1"></div>
+            }
+
+            </div>
+        </div>
+    </body>
+
+    <script>
+        var map = L.map('map').setView([21.001975258290276, 105.8031678199768], 10);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+        var marker = L.marker([21.001975258290276, 105.8031678199768]).addTo(map).bindPopup('Our Location.')
+            .openPopup();;
+        L.Routing.control({
+            show: false,
+            waypoints: [
+                L.latLng(21.001975258290276, 105.8031678199768),
+                L.latLng(21.038905050234785, 105.85642576217651)
+            ]
+        }).addTo(map);
+    </script>

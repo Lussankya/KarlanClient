@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<KarlanTravelClient.Models.TourDetail>
 
+
 @{
     ViewBag.Title = "Detail";
     Layout = "~/Views/_LayoutPage1.cshtml";
@@ -10,58 +11,112 @@
 <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 
+<style>
+    p {
+        margin: 2%;
+        border-right: 2px solid black;
+        padding-right: 5%
+    }
+    .detailBtn {
+        background-color: green;
+        color: white;
+        margin-top: 1%;
+        margin-left: 30%; padding : 3%
+    }
+</style>
 
 
-<div class="row">
-    <div class="col-lg-1"></div>
-    <div class="col-lg-4">
+<body>
+    <div>
 
-        <img src="/assets/images/T_HNtoCB01.png" class="card-img-top" style="margin-top:10%">
+        <div class="row">
 
-        <div class="map mt-5 pt-md-5">
-            <div id="map" style="height:500px;"></div>
+            <div class="col-lg-1"></div>
+
+
+            <div class="col-lg-6">
+                @foreach (var item in Model)
+                {
+                    <div class="container">
+
+                        <div class="row">
+                            <div class="col" style="margin-bottom:3%">
+                                <p>
+                                    Activity <br />
+                                    @Html.DisplayFor(modelItem => item.Activity)
+                                    <hr />
+                                </p>
+                            </div>
+                            <hr />
+                            <div class="col">
+                                <p>
+                                    Startingtime <br /> @Html.DisplayFor(modelItem => item.ActivityTimeStart)
+
+                                </p>
+                                <hr />
+                            </div>
+                            <div class="col">
+                                <p>
+                                    Endingtime <br /> @Html.DisplayFor(modelItem => item.ActivityTimeEnd)
+
+                                </p>
+                                <hr />
+                            </div>
+                        </div>
+                    </div>
+
+                }
+
+            </div>
+            <div class="col-lg-4">
+                @foreach (var item in Model)
+                {
+
+                    <img src="@item.Tour.TourImage" class="card-img-top" style="margin-top:10%">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Tour.TourName</h5>
+                        <div class="card-text">
+                            @if (item.Tour.CategoryId1 != "UNCG")
+                            {
+                                @item.Tour.Category.CategoryName
+                            }
+                            -
+                            @if (item.Tour.CategoryId2 != "UNCG")
+                            {
+                                @item.Tour.Category1.CategoryName
+                            }
+                        </div>
+
+                        <div class="card-text">
+                            <i class="fa fa-clock-o" aria-hidden="true"></i>
+                            From @item.Tour.TourStart.ToString("HH:mm dd/MM/yyyy") to @item.Tour.TourEnd.ToString("HH:mm dd/MM/yyyy")
+                        </div>
+                        <div class="card-text">
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            @item.Tour.TourRating/5
+                        </div>
+                        <div class="card-text">
+                            <i class="fa fa-usd" aria-hidden="true"></i>
+                            Price: @((int)item.Tour.TourPrice) VND
+                        </div>
+                        <div>
+                            @Html.ActionLink("Transaction", "Views", "Home", new { id = item.TourId }, new { @class = "btn btn - primary detailBtn" })
+                            @*<a href="#" class="">Go somewhere</a>*@
+                        </div>
+                    </div>
+                    break;
+
+                }
+                <div class="map mt-5 pt-md-5">
+                    <div id="map" style="height:500px;"></div>
+                </div>
+
+            </div>
+
+            <div class="col-lg-1"></div>
         </div>
     </div>
-    <div class="col-lg-6">
-        <table class="table">
-            <tr>
-
-
-                <th>
-                    Activity
-                </th>
-                <th>
-                    Starting time
-                </th>
-                <th>
-                    Ending time
-                </th>
-
-            </tr>
-
-            @foreach (var item in Model)
-            {
-                <tr>
-
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Activity)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ActivityTimeStart)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.ActivityTimeEnd)
-                    </td>
-
-                </tr>
-            }
-
-        </table>
-    </div>
-
-    <div class="col-lg-1"></div>
-</div>
-
+</body>
 <script>
     var map = L.map('map').setView([21.001975258290276, 105.8031678199768], 10);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
