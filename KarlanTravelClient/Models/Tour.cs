@@ -27,9 +27,9 @@ namespace KarlanTravelClient.Models
 
         public bool TourAvailability { get; set; }
 
-
+        
         public DateTime TourStart { get; set; }
-
+        
 
         public DateTime TourEnd { get; set; }
 
