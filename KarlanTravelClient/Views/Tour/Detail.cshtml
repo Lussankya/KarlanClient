@@ -1,13 +1,17 @@
 ﻿@model IEnumerable<KarlanTravelClient.Models.TourDetail>
 
 
-@{
-    ViewBag.Title = "Detail";
-    Layout = "~/Views/_LayoutPage1.cshtml";
-}
+@{ ViewBag.Title = "Detail";
+    Layout = "~/Views/_LayoutPage1.cshtml"; }
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
 <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
+<script src="https://unpkg.com/leaflet@1.8.0/dist/leaflet.js"
+        integrity="sha512-BB3hKbKWOc9Ez/TAwyWxNXeoV9c1v6FIeYiBieIWkpLjauysF18NzgR1MBNBXf8/KABdlkX68nAhlwcDFLGPCQ=="
+        crossorigin=""></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.8.0/dist/leaflet.css"
+      integrity="sha512-hoalWLoI8r4UszCkZ5kL8vayOGVae1oxXe/2A4AO6J9+580uKHDO3JdHb7NzwwzK5xr/Fs0W40kiNHxM9vyTtQ=="
+      crossorigin="" />
 <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -18,11 +22,13 @@
         border-right: 2px solid black;
         padding-right: 5%
     }
+
     .detailBtn {
         background-color: green;
         color: white;
         margin-top: 1%;
-        margin-left: 30%; padding : 3%
+        margin-left: 30%;
+        padding: 3%
     }
 </style>
 
@@ -38,56 +44,52 @@
             <div class="col-lg-6">
                 @foreach (var item in Model)
                 {
-                    <div class="container">
+    <div class="container">
 
-                        <div class="row">
-                            <div class="col" style="margin-bottom:3%">
-                                <p>
-                                
-                                    Activity <br />
-                                    @Html.DisplayFor(modelItem => item.Activity)
-                                    <hr />
-                                </p>
-                            </div>
-                            <hr />
-                            <div class="col">
-                                <p>
-                                    Startingtime <br /> @Html.DisplayFor(modelItem => item.ActivityTimeStart)
+        <div class="row">
+            <div class="col" style="margin-bottom:3%">
+                <p>
 
-                                </p>
-                                <hr />
-                            </div>
-                            <div class="col">
-                                <p>
-                                    Endingtime <br /> @Html.DisplayFor(modelItem => item.ActivityTimeEnd)
-                                <p>@Html.DisplayFor(modelItem => item.TouristSpot.Cord_Lat)</p>
-                                
-                                </p>
-                                <hr />
-                            </div>
-                        </div>
-                    </div>
-                    
-                }
+                    Activity <br />
+                    @Html.DisplayFor(modelItem => item.Activity)
+                    <hr />
+                </p>
+            </div>
+            <hr />
+            <div class="col">
+                <p>
+                    Startingtime <br /> @Html.DisplayFor(modelItem => item.ActivityTimeStart)
+
+                </p>
+                <hr />
+            </div>
+            <div class="col">
+                <p>
+                    Endingtime <br /> @Html.DisplayFor(modelItem => item.ActivityTimeEnd)
+                <p>@Html.DisplayFor(modelItem => item.TouristSpot.Cord_Lat)</p>
+
+                </p>
+                <hr />
+            </div>
+        </div>
+    </div>}
 
             </div>
             <div class="col-lg-4">
                 @foreach (var item in Model)
                 {
 
-                    <img src="@item.Tour.TourImage" class="card-img-top" style="margin-top:10%">
+    <img src="@item.Tour.TourImage" class="card-img-top" style="margin-top:10%">
                     <div class="card-body">
                         <h5 class="card-title">@item.Tour.TourName</h5>
                         <div class="card-text">
                             @if (item.Tour.CategoryId1 != "UNCG")
                             {
-                                @item.Tour.Category.CategoryName
-                            }
+            @item.Tour.Category.CategoryName}
                             -
                             @if (item.Tour.CategoryId2 != "UNCG")
                             {
-                                @item.Tour.Category1.CategoryName
-                            }
+            @item.Tour.Category1.CategoryName}
                         </div>
 
                         <div class="card-text">
@@ -106,11 +108,10 @@
                             @Html.ActionLink("Transaction", "Views", "Home", new { id = item.TourId }, new { @class = "btn btn - primary detailBtn" })
                             @*<a href="#" class="">Go somewhere</a>*@
                         </div>
-                    </div>
-                    break;
+                    </div>break;
 
                 }
-                <div class="map mt-5 pt-md-5">
+                <div class="map ">
                     <div id="map" style="height:500px;"></div>
                 </div>
 
@@ -122,41 +123,12 @@
 </body>
 <script>
     var map = L.map('map').setView([21.001975258290276, 105.8031678199768], 10);
-    var LeafIcon = L.Icon.extend({
-        options: {
-            shadowUrl: 'leaf-shadow.png',
-            iconSize: [38, 95],
-            shadowSize: [50, 64],
-            iconAnchor: [22, 94],
-            shadowAnchor: [4, 62],
-            popupAnchor: [-3, -76]
-        }
-    });
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '© OpenStreetMap'
     }).addTo(map);
     var marker = L.marker([21.001975258290276, 105.8031678199768]).addTo(map).bindPopup('Our Location.')
         .openPopup();;
-
-
-
-    var greenIcon = new LeafIcon({ iconUrl: 'https://leafletjs.com/examples/custom-icons/leaf-green.png' });
-    @*@foreach (var item in Model)
-    {
-        int i = 0;
-        string coordlat = item.TouristSpot.Cord_Lat;
-        string coordlong = item.TouristSpot.Cord_Long;
-
-        string[] alllat = new string[1000];
-        string[] alllong = new string[1000];
-        alllat[i] = coordlat;
-        alllong[i] = coordlong;
-        i++;
-
-    }*@
-
-
 
     $.ajax({
         type: "GET",
@@ -168,10 +140,10 @@
                     var lat = item.Cord_Lat;
                     var long = item.Cord_Long;
                     L.marker([lat, long]).addTo(map);
-                    var 
+                    
                 }
 
-                
+
             });
         },
         dataType: "json"

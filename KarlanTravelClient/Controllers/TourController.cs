@@ -34,15 +34,10 @@ namespace KarlanTravelClient.Controllers
             // return PartialView("_map", q.ToList()); 
             return Json(q, JsonRequestBehavior.AllowGet);
         }
-        public JsonResult GetLatLong()
-        {
-            //get the data from the Branch table
-            //test data
-            List<TouristSpot> branches = new List<TouristSpot>()
-        {
+        
             
-        };
-            return Json(branches, JsonRequestBehavior.AllowGet);
-        }
+        
+            
+        
     }
 }
