@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
 <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
 <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.1/jquery.min.js" integrity="sha512-aVKKRRi/Q/YV+4mjoKBsE4x3H+BkegoM/em46NNlCqNTmUYADjBbeNefNxYV7giUp0VxICtqdrbqU7iVaeZNXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
 <style>
     p {
@@ -42,6 +43,7 @@
                         <div class="row">
                             <div class="col" style="margin-bottom:3%">
                                 <p>
+                                
                                     Activity <br />
                                     @Html.DisplayFor(modelItem => item.Activity)
                                     <hr />
@@ -58,13 +60,14 @@
                             <div class="col">
                                 <p>
                                     Endingtime <br /> @Html.DisplayFor(modelItem => item.ActivityTimeEnd)
-
+                                <p>@Html.DisplayFor(modelItem => item.TouristSpot.Cord_Lat)</p>
+                                
                                 </p>
                                 <hr />
                             </div>
                         </div>
                     </div>
-
+                    
                 }
 
             </div>
@@ -119,12 +122,63 @@
 </body>
 <script>
     var map = L.map('map').setView([21.001975258290276, 105.8031678199768], 10);
+    var LeafIcon = L.Icon.extend({
+        options: {
+            shadowUrl: 'leaf-shadow.png',
+            iconSize: [38, 95],
+            shadowSize: [50, 64],
+            iconAnchor: [22, 94],
+            shadowAnchor: [4, 62],
+            popupAnchor: [-3, -76]
+        }
+    });
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '© OpenStreetMap'
     }).addTo(map);
     var marker = L.marker([21.001975258290276, 105.8031678199768]).addTo(map).bindPopup('Our Location.')
         .openPopup();;
+
+
+
+    var greenIcon = new LeafIcon({ iconUrl: 'https://leafletjs.com/examples/custom-icons/leaf-green.png' });
+    @*@foreach (var item in Model)
+    {
+        int i = 0;
+        string coordlat = item.TouristSpot.Cord_Lat;
+        string coordlong = item.TouristSpot.Cord_Long;
+
+        string[] alllat = new string[1000];
+        string[] alllong = new string[1000];
+        alllat[i] = coordlat;
+        alllong[i] = coordlong;
+        i++;
+
+    }*@
+
+
+
+    $.ajax({
+        type: "GET",
+        url: '@Url.Action("Home", "Tour/map")',
+        success: function (data) {
+
+            $(data).each(function (index, item) {
+                if (item.Cord_Lat != null) {
+                    var lat = item.Cord_Lat;
+                    var long = item.Cord_Long;
+                    L.marker([lat, long]).addTo(map);
+                    var 
+                }
+
+                
+            });
+        },
+        dataType: "json"
+    });
+
+
+
     L.Routing.control({
         show: false,
         waypoints: [

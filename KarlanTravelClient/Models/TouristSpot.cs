@@ -44,11 +44,11 @@ namespace KarlanTravelClient.Models
 
         [StringLength(255)]
         public string TouristSpotImage { get; set; }
-        [StringLength(20)]
-        public string Cord_Lat { get; set; }
+        
+        public decimal? Cord_Lat { get; set; }
 
-        [StringLength(20)]
-        public string Cord_Long { get; set; }
+        
+        public decimal? Cord_Long { get; set; }
 
 
         [StringLength(255)]

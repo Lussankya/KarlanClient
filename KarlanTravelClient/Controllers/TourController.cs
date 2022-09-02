@@ -24,5 +24,25 @@ namespace KarlanTravelClient.Controllers
             
             return View(tourDetail.ToList()) ;
         }
+        // GET: Locations
+        [HttpGet]
+        public ActionResult map()
+        {
+             
+            var q = (from a in db.TouristSpots
+                     select new { a.Cord_Lat, a.Cord_Long, a.TouristSpotName} );
+            // return PartialView("_map", q.ToList()); 
+            return Json(q, JsonRequestBehavior.AllowGet);
+        }
+        public JsonResult GetLatLong()
+        {
+            //get the data from the Branch table
+            //test data
+            List<TouristSpot> branches = new List<TouristSpot>()
+        {
+            
+        };
+            return Json(branches, JsonRequestBehavior.AllowGet);
+        }
     }
 }
