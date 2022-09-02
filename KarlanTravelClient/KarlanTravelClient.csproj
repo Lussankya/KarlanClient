@@ -131,6 +131,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\TourController.cs" />
+    <Compile Include="Controllers\TourDetailsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -240,6 +241,7 @@
     <Content Include="Views\_LayoutPage1.cshtml" />
     <Content Include="Views\Tour\Index.cshtml" />
     <Content Include="Views\Tour\Detail.cshtml" />
+    <Content Include="Views\TourDetails\Detail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
