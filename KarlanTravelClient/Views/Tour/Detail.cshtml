@@ -66,9 +66,8 @@
             <div class="col">
                 <p>
                     Endingtime <br /> @Html.DisplayFor(modelItem => item.ActivityTimeEnd)
-                <p>@Html.DisplayFor(modelItem => item.TouristSpot.Cord_Lat)</p>
+                <p>
 
-                </p>
                 <hr />
             </div>
         </div>
@@ -85,11 +84,11 @@
                         <div class="card-text">
                             @if (item.Tour.CategoryId1 != "UNCG")
                             {
-            @item.Tour.Category.CategoryName}
+                            @item.Tour.Category.CategoryName}
                             -
                             @if (item.Tour.CategoryId2 != "UNCG")
                             {
-            @item.Tour.Category1.CategoryName}
+                        @item.Tour.Category1.CategoryName}
                         </div>
 
                         <div class="card-text">
@@ -121,15 +120,42 @@
         </div>
     </div>
 </body>
+
+
 <script>
     var map = L.map('map').setView([21.001975258290276, 105.8031678199768], 10);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
         attribution: '© OpenStreetMap'
     }).addTo(map);
-    var marker = L.marker([21.001975258290276, 105.8031678199768]).addTo(map).bindPopup('Our Location.')
-        .openPopup();;
 
+    var mapListJson = @Html.Raw(Json.Encode(ViewBag.Map));
+    var spotNameJson = @Html.Raw(Json.Encode(ViewBag.SpotName));
+    var prevLat = mapListJson[0];
+    var prevLong = mapListJson[1];
+
+    let j = 0;
+    for (let i = 0; i < mapListJson.length - 1; i += 2) {
+        
+        var marker = L.marker([mapListJson[i], mapListJson[i + 1]]).addTo(map).bindPopup(spotNameJson[j]).openPopup();
+        L.Routing.control({
+            show: false,
+            waypoints: [
+
+                L.latLng(mapListJson[i], mapListJson[i+1]),
+                L.latLng(prevLat, prevLong)
+            ]
+        }).addTo(map);
+        prevLat = mapListJson[i];
+        prevLong = mapListJson[i + 1];
+        j++;
+    }
+
+
+    @*
+    var i = 0;
+    var prevLat = 0;
+    var prevLong = 0;
     $.ajax({
         type: "GET",
         url: '@Url.Action("Home", "Tour/map")',
@@ -137,26 +163,35 @@
 
             $(data).each(function (index, item) {
                 if (item.Cord_Lat != null) {
+
                     var lat = item.Cord_Lat;
                     var long = item.Cord_Long;
                     L.marker([lat, long]).addTo(map);
-                    
+                    if (i >= 1) {
+                        console.log(lat, long)
+                        console.log(prevLat, prevLong)
+                        L.Routing.control({
+                            show: false,
+                            waypoints: [
+
+                                L.latLng(lat, long),
+                                L.latLng(prevLat, prevLong)
+                            ]
+                        }).addTo(map);
+                    }
+                    prevLat = lat;
+                    prevLong = long;
+                    i++;
                 }
 
 
             });
         },
         dataType: "json"
-    });
+    });*@
 
 
 
-    L.Routing.control({
-        show: false,
-        waypoints: [
-            L.latLng(21.001975258290276, 105.8031678199768),
-            L.latLng(21.038905050234785, 105.85642576217651)
-        ]
-    }).addTo(map);
+
 </script>
 

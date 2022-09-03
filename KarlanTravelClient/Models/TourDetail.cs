@@ -1,5 +1,6 @@
 namespace KarlanTravelClient.Models
 {
+    using Newtonsoft.Json;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -40,10 +41,13 @@ namespace KarlanTravelClient.Models
 
         public bool Deleted { get; set; }
 
+        [JsonIgnore]
         public virtual Facility Facility { get; set; }
 
+        [JsonIgnore]
         public virtual Tour Tour { get; set; }
 
+        [JsonIgnore]
         public virtual TouristSpot TouristSpot { get; set; }
     }
 }

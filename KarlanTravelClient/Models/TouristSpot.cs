@@ -5,6 +5,7 @@ namespace KarlanTravelClient.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using Newtonsoft.Json;
 
     [Table("TouristSpot")]
     public partial class TouristSpot
@@ -56,10 +57,13 @@ namespace KarlanTravelClient.Models
 
         public bool Deleted { get; set; }
 
+        [JsonIgnore]
         public virtual City City { get; set; }
 
+        [JsonIgnore]
         public virtual SubCategory SubCategory { get; set; }
 
+        [JsonIgnore]
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<TourDetail> TourDetails { get; set; }
     }
