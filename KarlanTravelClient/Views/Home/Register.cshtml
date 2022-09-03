@@ -1,0 +1,56 @@
+﻿@model IEnumerable<KarlanTravelClient.Models.ListData>
+@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/_LayoutPage1.cshtml";
+}
+
+<div class="regFrm" style="padding-left: 100px; padding-bottom: 100px">
+    <h3>Register Form</h3>
+    <form action="createCustomer" method="post">
+        <span>Username: </span>
+        @Html.TextBox("username")
+        <br /><br />
+        <span>Password: </span>
+        @Html.Password("pass")
+        <br /><br />
+        <span>Confirm password: </span>
+        @Html.Password("repass")
+        <br /><br />
+        <span>Email: </span>
+        @Html.TextBox("email")
+        <br /><br />
+        <span>Phone: </span>
+        @Html.TextBox("phone")
+        <br /><br />
+        <span>City: </span>
+        <select name="city">
+            <option value=""></option>
+            @foreach(var city in Model.First().cities)
+            {
+                <option value="@city.CityName">@city.CityName</option>
+            }
+        </select>
+        <br /><br />
+        <span style="color: red">*</span><span style="font-size: 12px">Optional</span>
+        <br />
+        <span>Bank namme: </span>
+        <select name="bankName">
+            <option value=""></option>
+            @foreach (var bank in Model.First().banks)
+            {
+                <option value="@bank.BankName">@bank.BankName</option>
+            }
+        </select>
+        <br /><br />
+        <span>Account Name: </span>
+        @Html.TextBox("accName")
+        <br /><br />
+        <span>Account Number: </span>
+        @Html.TextBox("accNum")
+        <br /><br />
+        <p style="color: red">@TempData["error"]</p>
+        <br />
+        <input type="submit" value="SIGN UP" />
+    </form>
+</div>
+

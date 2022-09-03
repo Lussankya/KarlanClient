@@ -1,0 +1,35 @@
+﻿@model IEnumerable<KarlanTravelClient.Models.Bank>
+@{
+    ViewBag.Title = "UpdateBankAccount";
+    Layout = "~/Views/_LayoutPage1.cshtml";
+}
+
+<div class="updateBank" style="padding-left: 100px; padding-bottom: 100px">
+    <h3>Update Bank Account</h3>
+    @if (@TempData["bankAccStatus"].Equals("N/a"))
+    {
+        <span style="color: red">You don't have bank account! Create one to purchase for tour</span>
+        <br /><br />
+    }
+    <form action="addBankAccount" method="post">
+        <span>Bank Name: </span>
+        <select name="bankName">
+            <option value=""></option>
+            @foreach (var bank in Model)
+            {
+                <option value="@bank.BankName">@bank.BankName</option>
+            }
+        </select>
+        <br /><br />
+        <span>Bank Account Name: </span>
+        @Html.TextBox("bankAccName")
+        <br /><br />
+        <span>Bank Account Number: </span>
+        @Html.TextBox("bankAccNum")
+        <br /><br />
+        <p style="color: red">@TempData["ErrorBankAcc"]</p>
+        <br />
+        <input type="submit" value="Apply" />
+    </form>
+</div>
+

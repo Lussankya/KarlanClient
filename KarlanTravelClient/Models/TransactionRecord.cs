@@ -5,6 +5,8 @@ namespace KarlanTravelClient.Models
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using System.Data.Entity;
+    using System.Linq;
 
     [Table("TransactionRecord")]
     public partial class TransactionRecord
@@ -27,6 +29,10 @@ namespace KarlanTravelClient.Models
         public bool Paid { get; set; }
 
         public DateTime RecordedTime { get; set; }
+
+        public DateTime DueDate { get; set; }
+
+        public bool Canceled { get; set; }
 
         public int? AdminID { get; set; }
 

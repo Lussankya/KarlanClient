@@ -100,7 +100,11 @@
                             Price: @((int)item.Tour.TourPrice) VND
                         </div>
                         <div>
-                            @Html.ActionLink("Transaction", "Views", "Home", new { id = item.TourId }, new { @class = "btn btn - primary detailBtn" })
+                            @if (item.Tour.TourStart.Subtract(DateTime.Now) >= TimeSpan.FromDays(item.Tour.CancelDueDate) && item.Tour.MaxBooking != 0)
+                            {
+                                @Html.ActionLink("Transaction", "sendTourID", "Tour", new { tourID = item.TourId }, new { @class = "btn btn - primary detailBtn" })
+                            }
+
                             @*<a href="#" class="">Go somewhere</a>*@
                         </div>
                     </div>

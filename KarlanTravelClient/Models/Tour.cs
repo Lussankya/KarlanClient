@@ -9,8 +9,6 @@ namespace KarlanTravelClient.Models
     [Table("Tour")]
     public partial class Tour
     {
-
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Tour()
         {
@@ -27,9 +25,7 @@ namespace KarlanTravelClient.Models
 
         public bool TourAvailability { get; set; }
 
-        
         public DateTime TourStart { get; set; }
-        
 
         public DateTime TourEnd { get; set; }
 
@@ -46,6 +42,8 @@ namespace KarlanTravelClient.Models
         public int MaxBooking { get; set; }
 
         public int BookTimeLimit { get; set; }
+
+        public int CancelDueDate { get; set; }
 
         public double TourRating { get; set; }
 

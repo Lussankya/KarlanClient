@@ -48,6 +48,7 @@ namespace KarlanTravelClient.Models
         [StringLength(255)]
         public string FacilityImage { get; set; }
 
+        [Required]
         [StringLength(255)]
         public string ServiceNote { get; set; }
 

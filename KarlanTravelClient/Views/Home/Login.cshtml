@@ -1,0 +1,24 @@
+﻿@model IEnumerable<KarlanTravelClient.Models.Customer>
+@{
+    ViewBag.Title = "View";
+    Layout = "~/Views/_LayoutPage1.cshtml";
+}
+<div class="logFrm" style="padding-left: 100px; padding-bottom: 100px">
+    <h3>Login Form</h3>
+    <br />
+    <form action="checkLogin" method="post">
+        <span>Username: </span>
+        @Html.TextBox("userName")
+        <br />
+        <br />
+        <span>Password: </span>
+        @Html.Password("pass")
+        <br />
+        <br />
+        @Html.ActionLink("Create new account ?", "Register", "Home")
+        <br />
+        <input type="submit" value="LOG IN" />
+        <br />
+        <p style="color: red">@TempData["LoginResult"]</p>
+    </form>
+</div>
