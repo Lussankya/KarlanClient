@@ -30,6 +30,9 @@
         margin-left: 30%;
         padding: 3%
     }
+    .leaflet-control-container .leaflet-routing-container-hide {
+        display: none;
+    }
 </style>
 
 
@@ -123,6 +126,7 @@
 
 
 <script>
+    
     var map = L.map('map').setView([21.001975258290276, 105.8031678199768], 10);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         maxZoom: 19,
@@ -135,61 +139,48 @@
     var prevLong = mapListJson[1];
 
     let j = 0;
-    for (let i = 0; i < mapListJson.length - 1; i += 2) {
+    //pathfinding
+    //for (let i = 0; i < mapListJson.length - 1; i += 2) {
         
-        var marker = L.marker([mapListJson[i], mapListJson[i + 1]]).addTo(map).bindPopup(spotNameJson[j]).openPopup();
-        L.Routing.control({
-            show: false,
-            waypoints: [
+    //    var marker = L.marker([mapListJson[i], mapListJson[i + 1]]).addTo(map);
+    //    var markers = [
+    //        { pos: [mapListJson[i], mapListJson[i+1]], popup: spotNameJson[j] }];
+    //    markers.forEach(function (obj) {
+    //        var m = L.marker(obj.pos).addTo(map),
+    //            p = new L.Popup({ autoClose: false, closeOnClick: false })
+    //                .setContent(obj.popup)
+    //                .setLatLng(obj.pos);
+    //        m.bindPopup(p).openPopup();
+    //    });
+    //    L.Routing.control({
+    //        show: false,
+            
+    //        draggableWaypoints: false,
+    //        routeWhileDragging: false,
+    //        createMarker: function () { return null; },
+    //        lineOptions: {
+    //            addWaypoints: false
+    //        },
+    //        waypoints: [
 
-                L.latLng(mapListJson[i], mapListJson[i+1]),
-                L.latLng(prevLat, prevLong)
-            ]
-        }).addTo(map);
-        prevLat = mapListJson[i];
-        prevLong = mapListJson[i + 1];
-        j++;
+    //            L.latLng(mapListJson[i], mapListJson[i+1]),
+    //            L.latLng(prevLat, prevLong)
+    //        ]
+    //    }).addTo(map);
+    //    prevLat = mapListJson[i];
+    //    prevLong = mapListJson[i + 1];
+    //    j++;
+    //}
+    //polyline
+    var points = [];
+    for (let i = 0; i < mapListJson.length - 1; i += 2) {
+        points.push([mapListJson[i], mapListJson[i + 1]]);
+        L.marker([mapListJson[i], mapListJson[i+1]]).addTo(map);
+        L.polyline(points).addTo(map);
+        console.log(points);
+        
     }
-
-
-    @*
-    var i = 0;
-    var prevLat = 0;
-    var prevLong = 0;
-    $.ajax({
-        type: "GET",
-        url: '@Url.Action("Home", "Tour/map")',
-        success: function (data) {
-
-            $(data).each(function (index, item) {
-                if (item.Cord_Lat != null) {
-
-                    var lat = item.Cord_Lat;
-                    var long = item.Cord_Long;
-                    L.marker([lat, long]).addTo(map);
-                    if (i >= 1) {
-                        console.log(lat, long)
-                        console.log(prevLat, prevLong)
-                        L.Routing.control({
-                            show: false,
-                            waypoints: [
-
-                                L.latLng(lat, long),
-                                L.latLng(prevLat, prevLong)
-                            ]
-                        }).addTo(map);
-                    }
-                    prevLat = lat;
-                    prevLong = long;
-                    i++;
-                }
-
-
-            });
-        },
-        dataType: "json"
-    });*@
-
+    L.polyline(points).addTo(map);
 
 
 
