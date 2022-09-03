@@ -1,0 +1,73 @@
+﻿@model IEnumerable<KarlanTravelClient.Models.TransactionRecord>
+@{
+    ViewBag.Title = "Transaction";
+    Layout = "~/Views/_LayoutPage1.cshtml";
+}
+
+<div class="transTab" style="padding-left: 100px; padding-bottom: 100px">
+    <h2>Welcome @Session["UserName"]</h2>
+    <h3>Transaction History</h3>
+    <table class="table">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Tour.TourName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().TransactionFee)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Paid)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().RecordedTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().TransactionType.TransactionTypeName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().TransactionNote)
+            </th>
+            <th></th>
+        </tr>
+        @foreach (var trans in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => trans.Tour.TourName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => trans.TransactionFee)
+                </td>
+                <td>
+                    @if (trans.Paid)
+                    {
+                        <span>V</span>
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => trans.RecordedTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => trans.TransactionType.TransactionTypeName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => trans.TransactionNote)
+                </td>
+                <td>
+                    @if (!trans.Canceled)
+                    {
+                        if (trans.Paid)
+                        {
+                            @Html.ActionLink("Cancel", "canceledTour", "TransactionRecords", new { transID = trans.TransactionRecordId }, new { @class = "btn btn - primary detailBtn" })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Purchase", "purchaseFullTour", "TransactionRecords", new { transID = trans.TransactionRecordId }, new { @class = "btn btn - primary detailBtn" })
+                            @Html.ActionLink("Cancel", "canceledTour", "TransactionRecords", new { transID = trans.TransactionRecordId }, new { @class = "btn btn - primary detailBtn" })
+                        }
+                    }
+                </td>
+            </tr>
+        }
+    </table>
+</div>

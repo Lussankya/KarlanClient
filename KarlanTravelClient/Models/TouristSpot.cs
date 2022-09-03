@@ -52,6 +52,8 @@ namespace KarlanTravelClient.Models
         public decimal? Cord_Long { get; set; }
 
 
+        
+
         [StringLength(255)]
         public string TouristSpotNote { get; set; }
 

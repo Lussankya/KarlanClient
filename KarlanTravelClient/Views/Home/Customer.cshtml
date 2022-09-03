@@ -1,0 +1,48 @@
+﻿@model IEnumerable<KarlanTravelClient.Models.Customer>
+@{
+    ViewBag.Title = "Customer";
+    Layout = "~/Views/_LayoutPage1.cshtml";
+}
+
+<h2>Customer</h2>
+
+<div class="userInfo" style="padding-left: 100px; padding-bottom: 100px; padding-right: 100px">
+    <a href="../User/ChangPassword" style="margin-right: 50px">Change password</a>
+    <a href="../User/UpdateBankAccount" style="margin-right: 50px">Update Bank Account</a>
+    <br />
+    <br />
+    <h3>Welcome @Session["UserName"]</h3>
+    @foreach (var user in Model)
+    {
+        <span>User Name: @user.Username</span>
+        <br />
+        <br />
+        <span>Email: @user.Email</span>
+        <br />
+        <br />
+        <span>Phone: @user.Phone</span>
+        <br />
+        <br />
+        <span>Amount to pay: @user.AmountToPay</span>
+        <br />
+        <br />
+        <span>Amount to refund: @user.AmountToRefund</span>
+        <br />
+        <br />
+        if (user.BankAccount == null)
+        {
+            <span>Bank Account: None</span>
+        }
+        else
+        {
+            <span>Bank Account: @user.BankAccount.AccountName - @user.BankAccount.AccountNumber</span>
+        }
+        <br />
+        <br />
+        <span>Violation: @user.Violations</span>
+        if(user.BlackListed)
+        {
+            <span style="color: red; padding-left: 15px;">- You're in blacklist!'</span>
+        }
+    }
+</div>

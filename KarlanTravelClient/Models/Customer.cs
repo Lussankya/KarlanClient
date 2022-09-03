@@ -42,8 +42,15 @@ namespace KarlanTravelClient.Models
         [Column(TypeName = "money")]
         public decimal AmountToPay { get; set; }
 
+        [Column(TypeName = "money")]
+        public decimal AmountToRefund { get; set; }
+
+        public int Violations { get; set; }
+
         [StringLength(255)]
         public string CustomerNote { get; set; }
+
+        public bool BlackListed { get; set; }
 
         public bool Deleted { get; set; }
 

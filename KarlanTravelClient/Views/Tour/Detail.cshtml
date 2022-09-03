@@ -107,7 +107,11 @@
                             Price: @((int)item.Tour.TourPrice) VND
                         </div>
                         <div>
-                            @Html.ActionLink("Transaction", "Views", "Home", new { id = item.TourId }, new { @class = "btn btn - primary detailBtn" })
+                            @if (item.Tour.TourStart.Subtract(DateTime.Now) >= TimeSpan.FromDays(item.Tour.CancelDueDate) && item.Tour.MaxBooking != 0)
+                            {
+                                @Html.ActionLink("Transaction", "sendTourID", "Tour", new { tourID = item.TourId }, new { @class = "btn btn - primary detailBtn" })
+                            }
+
                             @*<a href="#" class="">Go somewhere</a>*@
                         </div>
                     </div>break;
@@ -138,49 +142,51 @@
     var prevLat = mapListJson[0];
     var prevLong = mapListJson[1];
 
+
     let j = 0;
     //pathfinding
-    //for (let i = 0; i < mapListJson.length - 1; i += 2) {
-        
-    //    var marker = L.marker([mapListJson[i], mapListJson[i + 1]]).addTo(map);
-    //    var markers = [
-    //        { pos: [mapListJson[i], mapListJson[i+1]], popup: spotNameJson[j] }];
-    //    markers.forEach(function (obj) {
-    //        var m = L.marker(obj.pos).addTo(map),
-    //            p = new L.Popup({ autoClose: false, closeOnClick: false })
-    //                .setContent(obj.popup)
-    //                .setLatLng(obj.pos);
-    //        m.bindPopup(p).openPopup();
-    //    });
-    //    L.Routing.control({
-    //        show: false,
-            
-    //        draggableWaypoints: false,
-    //        routeWhileDragging: false,
-    //        createMarker: function () { return null; },
-    //        lineOptions: {
-    //            addWaypoints: false
-    //        },
-    //        waypoints: [
-
-    //            L.latLng(mapListJson[i], mapListJson[i+1]),
-    //            L.latLng(prevLat, prevLong)
-    //        ]
-    //    }).addTo(map);
-    //    prevLat = mapListJson[i];
-    //    prevLong = mapListJson[i + 1];
-    //    j++;
-    //}
-    //polyline
-    var points = [];
     for (let i = 0; i < mapListJson.length - 1; i += 2) {
-        points.push([mapListJson[i], mapListJson[i + 1]]);
-        L.marker([mapListJson[i], mapListJson[i+1]]).addTo(map);
-        L.polyline(points).addTo(map);
-        console.log(points);
         
+        var marker = L.marker([mapListJson[i], mapListJson[i + 1]]).addTo(map);
+        console.log(mapListJson[i], mapListJson[i + 1])
+        var markers = [
+            { pos: [mapListJson[i], mapListJson[i+1]], popup: spotNameJson[j] }];
+        markers.forEach(function (obj) {
+            var m = L.marker(obj.pos).addTo(map),
+                p = new L.Popup({ autoClose: false, closeOnClick: false })
+                    .setContent(obj.popup)
+                    .setLatLng(obj.pos);
+            m.bindPopup(p).openPopup();
+        });
+        L.Routing.control({
+            show: false,
+            
+            draggableWaypoints: false,
+            routeWhileDragging: false,
+            createMarker: function () { return null; },
+            lineOptions: {
+                addWaypoints: false
+            },
+            waypoints: [
+
+                L.latLng(mapListJson[i], mapListJson[i+1]),
+                L.latLng(prevLat, prevLong)
+            ]
+        }).addTo(map);
+        prevLat = mapListJson[i];
+        prevLong = mapListJson[i + 1];
+        j++;
     }
-    L.polyline(points).addTo(map);
+    //polyline
+    //var points = [];
+    //for (let i = 0; i < mapListJson.length - 1; i += 2) {
+    //    points.push([mapListJson[i], mapListJson[i + 1]]);
+    //    L.marker([mapListJson[i], mapListJson[i+1]]).addTo(map);
+    //    L.polyline(points).addTo(map);
+    //    console.log(points);
+        
+    //}
+    //L.polyline(points).addTo(map);
 
 
 

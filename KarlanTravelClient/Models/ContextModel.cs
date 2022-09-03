@@ -87,6 +87,10 @@ namespace KarlanTravelClient.Models
                 .HasPrecision(19, 4);
 
             modelBuilder.Entity<Customer>()
+                .Property(e => e.AmountToRefund)
+                .HasPrecision(19, 4);
+
+            modelBuilder.Entity<Customer>()
                 .HasMany(e => e.TransactionRecords)
                 .WithRequired(e => e.Customer)
                 .WillCascadeOnDelete(false);

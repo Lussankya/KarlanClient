@@ -118,7 +118,6 @@ C:\Users\ADMIN\Source\Repos\KarlanClient\KarlanTravelClient\bin\System.Web.WebPa
 C:\Users\ADMIN\Source\Repos\KarlanClient\KarlanTravelClient\bin\Newtonsoft.Json.xml
 C:\Users\ADMIN\Source\Repos\KarlanClient\KarlanTravelClient\bin\Antlr3.Runtime.pdb
 C:\Users\ADMIN\Source\Repos\KarlanClient\KarlanTravelClient\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
-C:\Users\ADMIN\Source\Repos\KarlanClient\KarlanTravelClient\obj\Debug\KarlanTravelClient.csproj.AssemblyReference.cache
 C:\Users\ADMIN\Source\Repos\KarlanClient\KarlanTravelClient\obj\Debug\KarlanTravelClient.csproj.CoreCompileInputs.cache
 C:\Users\ADMIN\Source\Repos\KarlanClient\KarlanTravelClient\obj\Debug\KarlanTravelClient.csproj.CopyComplete
 C:\Users\ADMIN\Source\Repos\KarlanClient\KarlanTravelClient\obj\Debug\KarlanTravelClient.dll
@@ -247,3 +246,4 @@ C:\Users\ADMIN\source\repos\KarlanClient\KarlanTravelClient\bin\roslyn\vbc.exe.c
 C:\Users\ADMIN\source\repos\KarlanClient\KarlanTravelClient\bin\roslyn\vbc.rsp
 C:\Users\ADMIN\source\repos\KarlanClient\KarlanTravelClient\bin\roslyn\VBCSCompiler.exe
 C:\Users\ADMIN\source\repos\KarlanClient\KarlanTravelClient\bin\roslyn\VBCSCompiler.exe.config
+C:\Users\ADMIN\source\repos\KarlanClient\KarlanTravelClient\obj\Debug\KarlanTravelClient.csproj.AssemblyReference.cache
