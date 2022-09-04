@@ -104,13 +104,12 @@
                         </div>
                         <div class="card-text">
                             <i class="fa fa-usd" aria-hidden="true"></i>
-                            Price: @((int)item.Tour.TourPrice) VND
+                            Price: $@((int)item.Tour.TourPrice)
                         </div>
                         <div>
-                            @if (item.Tour.TourStart.Subtract(DateTime.Now) >= TimeSpan.FromDays(item.Tour.CancelDueDate) && item.Tour.MaxBooking != 0)
-                            {
-                                @Html.ActionLink("Transaction", "sendTourID", "Tour", new { tourID = item.TourId }, new { @class = "btn btn - primary detailBtn" })
-                            }
+                            
+                                @Html.ActionLink("Transaction", "sendTourID", "Tour", new { tourID = item.TourId }, new { @class = "btn btn-block mybtn btn-primary tx-tfm" })
+                            
 
                             @*<a href="#" class="">Go somewhere</a>*@
                         </div>

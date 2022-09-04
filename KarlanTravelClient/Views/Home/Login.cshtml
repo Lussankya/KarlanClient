@@ -3,22 +3,137 @@
     ViewBag.Title = "View";
     Layout = "~/Views/_LayoutPage1.cshtml";
 }
-<div class="logFrm" style="padding-left: 100px; padding-bottom: 100px">
-    <h3>Login Form</h3>
-    <br />
-    <form action="checkLogin" method="post">
-        <span>Username: </span>
-        @Html.TextBox("userName")
+
+<style>
+
+</style>
+<div class="logFrm" style="padding-left: 100px; padding-bottom: 100px; margin-top: 7%">
+    <div class="col-md-5 mx-auto">
+        <div id="first">
+            <div class="myform form " action="checkLogin" method="post">
+                <div class="logo mb-3">
+                    <div class="col-md-12 text-center">
+                        <h1>Login</h1>
+                    </div>
+                </div>
+                <form action="checkLogin" method="post" name="login">
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Username</label>
+                        <br />
+                        @Html.TextBox("userName",null, new { Class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Password</label>
+                        <br />
+                        @Html.Password("pass", null, new { Class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <p class="text-center">By signing up you accept our <a href="#">Terms Of Use</a></p>
+                    </div>
+                    <div class="col-md-12 text-center ">
+                        <label for="exampleInputEmail1" style="color: red">@TempData["LoginResult"]</label>
+                        <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm" value="LOG IN">Login</button>
+                    </div>
+                    <div class="col-md-12 ">
+                        <div class="login-or">
+                            <hr class="hr-or">
+                            
+                        </div>
+                    </div>
+                    <div class="col-md-12 mb-3">
+                        <p class="text-center">
+                            
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        <p class="text-center">Don't have account? @Html.ActionLink("Sign up here", "Register", "Home")</p>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+        </div>
         <br />
-        <br />
-        <span>Password: </span>
-        @Html.Password("pass")
-        <br />
-        <br />
-        @Html.ActionLink("Create new account ?", "Register", "Home")
-        <br />
-        <input type="submit" value="LOG IN" />
-        <br />
-        <p style="color: red">@TempData["LoginResult"]</p>
-    </form>
-</div>
+        
+    </div>
+
+
+
+<script>
+    $("#signup").click(function () {
+        $("#first").fadeOut("fast", function () {
+            $("#second").fadeIn("fast");
+        });
+    });
+
+    $("#signin").click(function () {
+        $("#second").fadeOut("fast", function () {
+            $("#first").fadeIn("fast");
+        });
+    });
+
+
+
+    $(function () {
+        $("form[name='login']").validate({
+            rules: {
+
+                email: {
+                    required: true,
+                    email: true
+                },
+                password: {
+                    required: true,
+
+                }
+            },
+            messages: {
+                email: "Please enter a valid email address",
+
+                password: {
+                    required: "Please enter password",
+
+                }
+
+            },
+            submitHandler: function (form) {
+                form.submit();
+            }
+        });
+    });
+
+
+
+    $(function () {
+
+        $("form[name='registration']").validate({
+            rules: {
+                firstname: "required",
+                lastname: "required",
+                email: {
+                    required: true,
+                    email: true
+                },
+                password: {
+                    required: true,
+                    minlength: 5
+                }
+            },
+
+            messages: {
+                firstname: "Please enter your firstname",
+                lastname: "Please enter your lastname",
+                password: {
+                    required: "Please provide a password",
+                    minlength: "Your password must be at least 5 characters long"
+                },
+                email: "Please enter a valid email address"
+            },
+
+            submitHandler: function (form) {
+                form.submit();
+            }
+        });
+    });
+
+</script>

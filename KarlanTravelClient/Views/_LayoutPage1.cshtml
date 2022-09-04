@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
     <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
     <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
+
     <script src="~/assets/js/all.js"></script>
     <script src="~/assets/js/app.js"></script>
     <script src="~/assets/js/bootstrap.min.js"></script>
@@ -34,26 +35,8 @@
     <script src="~/assets/js/main.js"></script>
     <script src="~/assets/js/modernizr-2.6.2.min.js"></script>
     <script src="~/assets/js/owl.carousel.js"></script>
-    <script src="~/assets/js/particles.min.js.js"></script>
     <script src="~/assets/js/popper.min.js"></script>
-    <script src="~/assets/js/script.js"></script>
     <script src="~/assets/js/theme-change.js"></script>
-    <script src="~/Scripts/bootstrap.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <script src="~/Scripts/jquery-3.4.1.intellisense.js"></script>
-    <script src="~/Scripts/jquery-3.4.1.js"></script>
-    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
-    <script src="~/Scripts/jquery-3.4.1.slim.js"></script>
-    <script src="~/Scripts/jquery-3.4.1.slim.min.js"></script>
-    <script src="~/Scripts/jquery.validate-vsdoc.js"></script>
-    <script src="~/Scripts/jquery.validate.js"></script>
-    <script src="~/assets/js/jquery.zoomslider.min.js"></script>
-    <script src="~/Scripts/jquery.validate.min.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.js"></script>
-    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
-    <script src="~/Scripts/modernizr-2.8.3.js"></script>
-    <script src="~/Scripts/jquery-3.4.1.min.map"></script>
-    <script src="~/Scripts/jquery-3.4.1.slim.min.map"></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Traversal Travel Category Bootstrap Responsive Template | Home :: W3layouts</title>
@@ -92,12 +75,12 @@
                             aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon fa icon-expand fa-bars"></span>
                         <span class="navbar-toggler-icon fa icon-close fa-times"></span>
-                        </span>
+                        
                     </button>
 
                     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
                         <ul class="navbar-nav mr-auto">
-                            <li class="nav-item active">
+                            <li class="nav-item">
                                 @Html.ActionLink("Home", "index", "Home", null, new { @class = "nav-link" })
                             </li>
                             <li class="nav-item">
@@ -123,27 +106,27 @@
                         </ul>
                     </div>
                     <div class="d-lg-block d-none">
-                        @Html.ActionLink("Get In Touch", "Contact", "Contact", new { @class = "nav-link" })
+                        @if (Session["UserID"] == null)
+                        {
+                            @Html.ActionLink("Login", "Login", "Home", null, new { @class = "nav-link" })
+                        }
+                        else
+                        {
+                            @Html.ActionLink("Logout", "Logout", "Home", null, new { @class = "nav-link" })
+                        }
+
                     </div>
                     <!-- toggle switch for light and dark theme -->
                     <div class="mobile-position">
                         <nav class="navigation">
-                            <div class="theme-switch-wrapper">
-                                <label class="theme-switch" for="checkbox">
-                                    <input type="checkbox" id="checkbox">
-                                    <div class="mode-container">
-                                        <i class="gg-sun"></i>
-                                        <i class="gg-moon"></i>
-                                    </div>
-                                </label>
-                            </div>
+                            
                         </nav>
                     </div>
                     <!-- //toggle switch for light and dark theme -->
                 </nav>
             </div>
         </header>
-        <div style="margin-top:5%">
+        <div style="margin-top: 5%; margin-bottom: 10%">
             @RenderBody()
         </div>
         
@@ -165,24 +148,10 @@
                                         </ul>
                                     </div>
                                     <div class="col-md-4 column mt-md-0 mt-4">
-                                        <h3>Useful Links</h3>
-                                        <ul class="footer-gd-16">
-                                            <li><a href="#url">Destinations</a></li>
-                                            <li><a href="#url">Our Branches</a></li>
-                                            <li><a href="#url">Latest Media</a></li>
-                                            <li><a href="about.html">About Company</a></li>
-                                            <li><a href="#url">Our Packages</a></li>
-                                        </ul>
+                                        
                                     </div>
                                     <div class="col-md-4 column mt-md-0 mt-4">
-                                        <h3>Our Services</h3>
-                                        <ul class="footer-gd-16">
-                                            <li><a href="#url">Privacy Policy</a></li>
-                                            <li><a href="#url">Our Terms</a></li>
-                                            <li><a href="services.html">Services</a></li>
-                                            <li><a href="landing-single.html">Landing Page</a></li>
-                                            <li><a href="#url">Our Guides</a></li>
-                                        </ul>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -200,11 +169,7 @@
                         </div>
                         <div class="d-flex below-section justify-content-between align-items-center pt-4 mt-5">
                             <div class="columns text-lg-left text-center">
-                                <p>
-                                    &copy; 2020 Traversal. All rights reserved.Design by <a href="https://w3layouts.com/" target="_blank">
-                                        W3Layouts
-                                    </a>
-                                </p>
+                               
                             </div>
                             <div class="columns-2 mt-lg-0 mt-3">
                                 <ul class="social">
@@ -260,6 +225,19 @@
                         $('.navbar-toggler').click(function () {
                             $('body').toggleClass('noscroll');
                         })
+                    });
+                    $(".navbar-toggler").on("click", function () {
+                        $("header").toggleClass("active");
+                    });
+                    $(document).on("ready", function () {
+                        if ($(window).width() > 991) {
+                            $("header").removeClass("active");
+                        }
+                        $(window).on("resize", function () {
+                            if ($(window).width() > 991) {
+                                $("header").removeClass("active");
+                            }
+                        });
                     });
                 </script>
             </section>

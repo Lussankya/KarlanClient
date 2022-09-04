@@ -4,45 +4,62 @@
     Layout = "~/Views/_LayoutPage1.cshtml";
 }
 
-<h2>Customer</h2>
 
-<div class="userInfo" style="padding-left: 100px; padding-bottom: 100px; padding-right: 100px">
-    <a href="../User/ChangPassword" style="margin-right: 50px">Change password</a>
-    <a href="../User/UpdateBankAccount" style="margin-right: 50px">Update Bank Account</a>
-    <br />
-    <br />
-    <h3>Welcome @Session["UserName"]</h3>
-    @foreach (var user in Model)
-    {
-        <span>User Name: @user.Username</span>
+<div class="col-md-7 mx-auto">
+    <div class="userInfo" style="padding-left: 100px; padding-bottom: 100px; padding-right: 100px">
+
         <br />
         <br />
-        <span>Email: @user.Email</span>
+        <h2 style="text-align:center">    Welcome @Session["UserName"]</h2>
         <br />
         <br />
-        <span>Phone: @user.Phone</span>
-        <br />
-        <br />
-        <span>Amount to pay: @user.AmountToPay</span>
-        <br />
-        <br />
-        <span>Amount to refund: @user.AmountToRefund</span>
-        <br />
-        <br />
-        if (user.BankAccount == null)
+        @foreach (var user in Model)
         {
-            <span>Bank Account: None</span>
+            <h4>User Name: @user.Username</h4>
+            <br />
+            <br />
+            <h4>Email: @user.Email</h4>
+            <br />
+            <br />
+            <h4>Phone: @user.Phone</h4>
+            <br />
+            <br />
+            <h4>Amount to pay: @user.AmountToPay</h4>
+            <br />
+            <br />
+            <h4>Amount to refund: @user.AmountToRefund</h4>
+            <br />
+            <br />
+            if (user.BankAccount == null)
+            {
+                <h4>Bank Account: None</h4>
+            }
+            else
+            {
+                <h4>Bank Account: @user.BankAccount.AccountName - @user.BankAccount.AccountNumber</h4>
+            }
+            <br />
+            <br />
+            <h4>Violation: @user.Violations</h4>
+            <br />
+            <br />
+            <br />
+            if (user.BlackListed)
+            {
+                <h4 style="color: red; padding-left: 15px;">- You're in blacklist!'</h4>
+            }
+
         }
-        else
-        {
-            <span>Bank Account: @user.BankAccount.AccountName - @user.BankAccount.AccountNumber</span>
-        }
-        <br />
-        <br />
-        <span>Violation: @user.Violations</span>
-        if(user.BlackListed)
-        {
-            <span style="color: red; padding-left: 15px;">- You're in blacklist!'</span>
-        }
-    }
-</div>
+        <div class="row">
+            <div class="col-md-6 text-center ">
+                <a href="../User/ChangPassword" style="margin-right: 50px" role="button" class=" btn btn-block mybtn btn-primary tx-tfm">Change password</a>
+            </div>
+            <div class="col-md-6 text-center ">
+                <a href="../User/UpdateBankAccount" style="margin-right: 50px" role="button" class=" btn btn-block mybtn btn-primary tx-tfm">Update Bank Account</a>
+            </div>
+        </div>
+
+
+
+    </div>
+    </div>

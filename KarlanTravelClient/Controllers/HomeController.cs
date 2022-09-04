@@ -14,7 +14,14 @@ namespace KarlanTravelClient.Controllers
         private SessionCheck SesCheck = new SessionCheck();
         public ActionResult Index()
         {
-            return View();
+            int showTour = 4;
+            var tour = db.Tours.Include(t => t.Category).Include(t => t.Category1).OrderByDescending(t => t.TourRating).ToList();
+            List<Tour> temp = new List<Tour>();
+            for(int i = 0; i < showTour; i++)
+            {
+                temp.Add(tour[i]);
+            }
+            return View(temp);
         }
 
         public ActionResult About()
@@ -142,6 +149,11 @@ namespace KarlanTravelClient.Controllers
                 TempData["error"] = "";
                 return RedirectToAction("Login");
             }
+        }
+        public ActionResult Logout()
+        {
+            Session["UserID"] = null;
+            return RedirectToAction("Login");
         }
 
     }

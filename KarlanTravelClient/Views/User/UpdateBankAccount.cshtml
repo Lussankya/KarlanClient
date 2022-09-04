@@ -3,33 +3,46 @@
     ViewBag.Title = "UpdateBankAccount";
     Layout = "~/Views/_LayoutPage1.cshtml";
 }
-
-<div class="updateBank" style="padding-left: 100px; padding-bottom: 100px">
-    <h3>Update Bank Account</h3>
-    @if (@TempData["bankAccStatus"].Equals("N/a"))
-    {
-        <span style="color: red">You don't have bank account! Create one to purchase for tour</span>
-        <br /><br />
-    }
-    <form action="addBankAccount" method="post">
-        <span>Bank Name: </span>
-        <select name="bankName">
-            <option value=""></option>
-            @foreach (var bank in Model)
+<div class="col-md-4 mx-auto" style=" margin-top: 7%">
+    
+        
+            <h3>Update Bank Account</h3>
+            @if (@TempData["bankAccStatus"].Equals("N/a"))
             {
-                <option value="@bank.BankName">@bank.BankName</option>
+                <span style="color: red">You don't have bank account! Create one to purchase for tour</span>
+                <br /><br />
             }
-        </select>
-        <br /><br />
-        <span>Bank Account Name: </span>
-        @Html.TextBox("bankAccName")
-        <br /><br />
-        <span>Bank Account Number: </span>
-        @Html.TextBox("bankAccNum")
-        <br /><br />
-        <p style="color: red">@TempData["ErrorBankAcc"]</p>
-        <br />
-        <input type="submit" value="Apply" />
-    </form>
-</div>
+            <form action="addBankAccount" method="post">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Bank Name</label>
+                    <br />
+                    <select name="bankName">
+                        <option value=""></option>
+                        @foreach (var bank in Model)
+                        {
+                            <option value="@bank.BankName">@bank.BankName</option>
+                        }
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Bank Account Name</label>
+                    <br />
+                    @Html.TextBox("bankAccName", null, new { Class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Bank Account Number</label>
+                    <br />
+                    @Html.TextBox("bankAccNum", null, new { Class = "form-control" })
+                </div>
+                <div class="form-group">
+                    <p class="text-center" style="color: red">@TempData["ErrorBankAcc"]</p>
+                </div>
+                <div class="col-md-12 text-center ">
+                    <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm" value="Apply">Apply</button>
+                </div>
 
+
+            </form>
+        </div>
+
+        

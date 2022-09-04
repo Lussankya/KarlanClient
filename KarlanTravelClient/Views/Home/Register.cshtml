@@ -4,53 +4,171 @@
     Layout = "~/Views/_LayoutPage1.cshtml";
 }
 
-<div class="regFrm" style="padding-left: 100px; padding-bottom: 100px">
-    <h3>Register Form</h3>
-    <form action="createCustomer" method="post">
-        <span>Username: </span>
-        @Html.TextBox("username")
-        <br /><br />
-        <span>Password: </span>
-        @Html.Password("pass")
-        <br /><br />
-        <span>Confirm password: </span>
-        @Html.Password("repass")
-        <br /><br />
-        <span>Email: </span>
-        @Html.TextBox("email")
-        <br /><br />
-        <span>Phone: </span>
-        @Html.TextBox("phone")
-        <br /><br />
-        <span>City: </span>
-        <select name="city">
-            <option value=""></option>
-            @foreach(var city in Model.First().cities)
-            {
-                <option value="@city.CityName">@city.CityName</option>
-            }
-        </select>
-        <br /><br />
-        <span style="color: red">*</span><span style="font-size: 12px">Optional</span>
-        <br />
-        <span>Bank namme: </span>
-        <select name="bankName">
-            <option value=""></option>
-            @foreach (var bank in Model.First().banks)
-            {
-                <option value="@bank.BankName">@bank.BankName</option>
-            }
-        </select>
-        <br /><br />
-        <span>Account Name: </span>
-        @Html.TextBox("accName")
-        <br /><br />
-        <span>Account Number: </span>
-        @Html.TextBox("accNum")
-        <br /><br />
-        <p style="color: red">@TempData["error"]</p>
-        <br />
-        <input type="submit" value="SIGN UP" />
-    </form>
-</div>
+<div class="logFrm" style="padding-left: 100px; padding-bottom: 100px; margin-top: 7%">
+    <div class="col-md-5 mx-auto">
+        
+        <form action="createCustomer" method="post">
+            <div id="second">
+                <div class="myform form ">
+                    <div class="logo mb-3">
+                        <div class="col-md-12 text-center">
+                            <h1>Signup</h1>
+                        </div>
+                    </div>
 
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Username</label>
+                        <br />
+                        @Html.TextBox("username", null, new { Class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Password</label>
+                        <br />
+                        @Html.Password("pass", null, new { Class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Confirm password</label>
+                        <br />
+                        @Html.Password("repass", null, new { Class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Email</label>
+                        <br />
+                        @Html.TextBox("email", null, new { Class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Phone number</label>
+                        <br />
+                        @Html.TextBox("phone", null, new { Class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">City</label>
+                        <br />
+                        <select name="city" class="form-select form-select-lg mb-3" aria-label="Default select example">
+                            <option value="" style="width:100%"></option>
+                            @foreach (var city in Model.First().cities)
+                            {
+                                <option value="@city.CityName">@city.CityName</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Bank name</label>
+                        <br />
+                        <select name="bankName" class="form-select form-select-lg mb-3">
+                            <option value=""></option>
+                            @foreach (var bank in Model.First().banks)
+                            {
+                                <option value="@bank.BankName">@bank.BankName</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Account name</label>
+                        <br />
+                        @Html.TextBox("accName", null, new { Class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Account number</label>
+                        <br />
+                        @Html.TextBox("accNum", null, new { Class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1" style="color: red">@TempData["error"]</label>
+                    </div>
+                    
+                    <div class="col-md-12 text-center mb-3">
+                        <br />
+                        <button type="submit" class=" btn btn-block mybtn btn-primary tx-tfm" value="SIGN UP">Get Started For Free</button>
+                    </div>
+                    <div class="col-md-12 ">
+                        <div class="form-group">
+                            <p class="text-center">@Html.ActionLink("Already have an account?", "Login", "Home", null, new { @class = "nav-link" })</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
+    
+    
+</div>
+<script>
+    $("#signup").click(function () {
+        $("#first").fadeOut("fast", function () {
+            $("#second").fadeIn("fast");
+        });
+    });
+
+    $("#signin").click(function () {
+        $("#second").fadeOut("fast", function () {
+            $("#first").fadeIn("fast");
+        });
+    });
+
+
+
+    $(function () {
+        $("form[name='login']").validate({
+            rules: {
+
+                email: {
+                    required: true,
+                    email: true
+                },
+                password: {
+                    required: true,
+
+                }
+            },
+            messages: {
+                email: "Please enter a valid email address",
+
+                password: {
+                    required: "Please enter password",
+
+                }
+
+            },
+            submitHandler: function (form) {
+                form.submit();
+            }
+        });
+    });
+
+
+
+    $(function () {
+
+        $("form[name='registration']").validate({
+            rules: {
+                firstname: "required",
+                lastname: "required",
+                email: {
+                    required: true,
+                    email: true
+                },
+                password: {
+                    required: true,
+                    minlength: 5
+                }
+            },
+
+            messages: {
+                firstname: "Please enter your firstname",
+                lastname: "Please enter your lastname",
+                password: {
+                    required: "Please provide a password",
+                    minlength: "Your password must be at least 5 characters long"
+                },
+                email: "Please enter a valid email address"
+            },
+
+            submitHandler: function (form) {
+                form.submit();
+            }
+        });
+    });
+
+</script>

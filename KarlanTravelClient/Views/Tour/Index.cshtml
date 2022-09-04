@@ -40,14 +40,14 @@
                                 <i class="fa fa-clock-o" aria-hidden="true"></i>
                                 From @item.TourStart.ToString("HH:mm dd/MM/yyyy") to @item.TourEnd.ToString("HH:mm dd/MM/yyyy")
                             </p>
-                            <p>@item.TourImage </p>
+                            
                             <p class="card-text">
                                 <i class="fa fa-star" aria-hidden="true"></i>
                                 @item.TourRating/5
                             </p>
                             <p class="card-text">
                                 <i class="fa fa-usd" aria-hidden="true"></i>
-                                Price: @((int)item.TourPrice) VND
+                                Price: @((int)item.TourPrice)
                             </p>
                             @Html.ActionLink("Detail", "Detail", "Tour", new { id = item.TourId }, new { @class = "btn btn - primary detailBtn" })
                             @*<a href="#" class="">Go somewhere</a>*@
