@@ -67,18 +67,6 @@ CREATE TABLE SubCategory(
 
 GO
 
-IF OBJECT_ID('dbo.TransactionType', 'U') IS NOT NULL
-  DROP TABLE dbo.TransactionType
-CREATE TABLE TransactionType(
-	TransactionTypeId NVARCHAR(40) PRIMARY KEY,
-	TransactionTypeName NVARCHAR(40) NOT NULL,
-	TransactionTypeNote NVARCHAR(255) NULL,
-	TransactionPriceRate FLOAT NOT NULL,
-	Deleted BIT NOT NULL DEFAULT 0
-)
-
-GO
-
 IF OBJECT_ID('dbo.AdminRole', 'U') IS NOT NULL
   DROP TABLE dbo.AdminRole
 CREATE TABLE AdminRole(
@@ -108,6 +96,7 @@ CREATE TABLE BankAccount(
 	BankAccountId INT PRIMARY KEY IDENTITY (1,1),
 	AccountName NVARCHAR(255) NOT NULL,
 	AccountNumber NVARCHAR(40) NOT NULL UNIQUE,
+	Balance MONEY NOT NULL DEFAULT 0,
 	BankId NVARCHAR(40) FOREIGN KEY REFERENCES Bank(BankId) NOT NULL,
 	Deleted BIT NOT NULL DEFAULT 0
 )
@@ -128,7 +117,6 @@ CREATE TABLE Customer(
 	AmountToRefund MONEY NOT NULL DEFAULT 0,
 	Violations INT NOT NULL DEFAULT 0,
 	CustomerNote NVARCHAR(255) NULL,
-	BlackListed BIT NOT NULL DEFAULT 0,
 	Deleted BIT NOT NULL DEFAULT 0
 )
 
@@ -142,7 +130,6 @@ CREATE TABLE [Admin](
 	AdminPassword NVARCHAR(255) NOT NULL,
 	RoleId NVARCHAR(40) NOT NULL FOREIGN KEY REFERENCES AdminRole(RoleId),
 	AdminNote NVARCHAR(255) NULL,
-	IsActive BIT NOT NULL DEFAULT 0,
 	Deleted BIT NOT NULL DEFAULT 0
 )
 
@@ -202,7 +189,6 @@ CREATE TABLE Tour(
 	CategoryId2 NVARCHAR(40) FOREIGN KEY REFERENCES Category(CategoryId) NULL,
 	MaxBooking INT NOT NULL,
 	BookTimeLimit INT NOT NULL,
-	CancelDueDate INT NOT NULL DEFAULT 10,
 	TourRating FLOAT NOT NULL DEFAULT 1,
 	TourImage NVARCHAR(255) NULL,
 	TourNote NVARCHAR(255) NULL,
@@ -232,15 +218,14 @@ IF OBJECT_ID('dbo.TransactionRecord', 'U') IS NOT NULL
   DROP TABLE dbo.TransactionRecord
 CREATE TABLE TransactionRecord(
 	TransactionRecordId INT PRIMARY KEY IDENTITY(1,1),
-	TransactionTypeId NVARCHAR(40) FOREIGN KEY REFERENCES TransactionType(TransactionTypeId) NOT NULL,
 	TourId NVARCHAR(40) FOREIGN KEY REFERENCES Tour(TourId) NOT NULL,
 	CustomerID INT FOREIGN KEY REFERENCES Customer(CustomerID) NOT NULL,
+	Quantity INT NOT NULL DEFAULT 1,
 	TransactionFee MONEY NOT NULL,
-	Paid BIT NOT NULL DEFAULT 0,
 	RecordedTime DATETIME NOT NULL,
 	DueDate DATETIME NOT NULL,
+	Paid BIT NOT NULL DEFAULT 0,
 	Canceled BIT NOT NULL DEFAULT 0,
-	AdminID INT FOREIGN KEY REFERENCES [Admin](AdminID) NULL,
 	TransactionNote NVARCHAR(255) NULL,
 	Deleted BIT NOT NULL DEFAULT 0
 )
@@ -296,15 +281,6 @@ INSERT INTO [Admin](AdminName, AdminPassword ,RoleId) VALUES
 (N'VCM', N'fc1200c7a7aa52109d762a9f005b149abef01479', N'TOUR_MG')
 
 
-
-INSERT INTO TransactionType(TransactionTypeId, TransactionTypeName, TransactionTypeNote, TransactionPriceRate) VALUES
-(N'DEPOSIT', N'Put a deposit', N'Booking takes 30% of the tour price as a deposit', 0.3),
-(N'PURCHSE', N'Purchase tour', N'Pay the remaining 70% of booking price later', 0.7),
-(N'CANCL_EARL', N'Cancel tour early', N'If the user cancels the tour early there will be no fee charges, and recived a full refund', 0),
-(N'CANCL_LATE', N'Cancel tour late', N'If the user cancels the tour late only refund the tour payment (if it has been paid) but not the deposit', 0.3)
-
-
-
 INSERT INTO FacilityType(FacilityTypeId, FacilityTypeName) VALUES
 (N'UNTP', N'Untyped'),
 (N'HTEL', N'Hotel'),
@@ -343,15 +319,15 @@ INSERT INTO SubCategory(SubCategoryId, SubCategoryName, SubCategoryNote, Categor
 
 
 INSERT INTO Tour(TourId, TourName, TourAvailability, TourStart, TourEnd, TourPrice, TourImage, TourRating, MaxBooking, BookTimeLimit, CategoryId1, CategoryId2) VALUES
-(N'T_HNtoCB01', N'Hà Nội - Cao Bằng', 1, CAST(N'2022-08-03T06:00:00.000' AS DateTime), CAST(N'2022-08-04T21:00:00.000' AS DateTime), 2350000.0000, N'/assets/images/T_HNtoCB01.png', 4.2, 40, 60, N'NATR', N'HIST'),
-(N'T_HNtoMC01', N'Hà Nội - Mai Châu', 1, CAST(N'2022-09-12T07:00:00.000' AS DateTime), CAST(N'2022-09-13T18:00:00.000' AS DateTime), 1580000.0000, N'/assets/images/T_HNtoMC01.png', 3.6, 30, 30, N'CULTR', N'NATR'),
-(N'T_HNtoTD01', N'Hà Nội - Tam Đảo', 1, CAST(N'2022-12-04T07:00:00.000' AS DateTime), CAST(N'2022-12-05T18:30:00.000' AS DateTime), 1350000.0000, N'/assets/images/T_HNtoTD01.png', 4.9, 20, 30, N'NATR', N'CULTR'),
-
-(N'T_HNtoBJ01', N'Hà Nội - Beijing', 1, CAST(N'2022-11-17T07:00:00.000' AS DateTime), CAST(N'2022-11-19T19:30:00.000' AS DateTime), 6800000.0000, N'/assets/images/T_HNtoBJ01.png', 4.4, 20, 30, N'HIST', N'CULTR'),
-(N'T_HNtoĐL01', N'Hà Nội - Đà Lạt', 1, CAST(N'2022-10-23T09:00:00.000' AS DateTime), CAST(N'2022-10-24T19:30:00.000' AS DateTime), 5600000.0000, N'/assets/images/T_HNtoĐL01.png', 4.3, 30, 20, N'NATR', N'HIST'),
-(N'T_HNtoLP01', N'Hà Nội - La Pandora Cruise', 1, CAST(N'2023-07-15T08:00:00.000' AS DateTime), CAST(N'2023-07-16T15:00:00.000' AS DateTime), 2300000.0000, N'/assets/images/T_HNtoLP01.png', 4.6, 30, 30, N'NATR', N'HIST'),
-(N'T_HNtoNT01', N'Hà Nội - Nha Trang', 1, CAST(N'2022-10-10T06:00:00.000' AS DateTime), CAST(N'2022-10-11T21:00:00.000' AS DateTime), 5800000.0000, N'/assets/images/T_HNtoNT01.png', 4.5, 20, 30, N'HIST', N'NATR'),
-(N'T_HNtoSG01', N'Hà Nội - Singapore', 1, CAST(N'2023-08-26T05:00:00.000' AS DateTime), CAST(N'2023-08-28T19:45:00.000' AS DateTime), 9200000.0000, N'/assets/images/T_HNtoSG01.png', 4.6, 24, 45, N'CULTR', N'NATR')
+(N'T_HNtoCB01', N'Hà Nội - Cao Bằng', 1, CAST(N'2022-08-03T06:00:00.000' AS DateTime), CAST(N'2022-08-04T21:00:00.000' AS DateTime), 100.16, N'/assets/images/T_HNtoCB01.png', 4.2, 40, 60, N'NATR', N'HIST'),
+(N'T_HNtoMC01', N'Hà Nội - Mai Châu', 1, CAST(N'2022-09-12T07:00:00.000' AS DateTime), CAST(N'2022-09-13T18:00:00.000' AS DateTime), 67.34, N'/assets/images/T_HNtoMC01.png', 3.6, 30, 30, N'CULTR', N'NATR'),
+(N'T_HNtoTD01', N'Hà Nội - Tam Đảo', 1, CAST(N'2022-12-04T07:00:00.000' AS DateTime), CAST(N'2022-12-05T18:30:00.000' AS DateTime), 57.54, N'/assets/images/T_HNtoTD01.png', 4.9, 20, 30, N'NATR', N'CULTR'),
+----
+(N'T_HNtoBJ01', N'Hà Nội - Beijing', 1, CAST(N'2022-11-17T07:00:00.000' AS DateTime), CAST(N'2022-11-19T19:30:00.000' AS DateTime), 289.82, N'/assets/images/T_HNtoBJ01.png', 4.4, 20, 30, N'HIST', N'CULTR'),
+(N'T_HNtoĐL01', N'Hà Nội - Đà Lạt', 1, CAST(N'2022-10-23T09:00:00.000' AS DateTime), CAST(N'2022-10-24T19:30:00.000' AS DateTime), 238.68, N'/assets/images/T_HNtoĐL01.png', 4.3, 30, 20, N'NATR', N'HIST'),
+(N'T_HNtoLP01', N'Hà Nội - La Pandora Cruise', 1, CAST(N'2023-07-15T08:00:00.000' AS DateTime), CAST(N'2023-07-16T15:00:00.000' AS DateTime), 98.03, N'/assets/images/T_HNtoLP01.png', 4.6, 30, 30, N'NATR', N'HIST'),
+(N'T_HNtoNT01', N'Hà Nội - Nha Trang', 1, CAST(N'2022-10-10T06:00:00.000' AS DateTime), CAST(N'2022-10-11T21:00:00.000' AS DateTime), 247.20, N'/assets/images/T_HNtoNT01.png', 4.5, 20, 30, N'HIST', N'NATR'),
+(N'T_HNtoSG01', N'Hà Nội - Singapore', 1, CAST(N'2023-08-26T05:00:00.000' AS DateTime), CAST(N'2023-08-28T19:45:00.000' AS DateTime), 392.12, N'/assets/images/T_HNtoSG01.png', 4.6, 24, 45, N'CULTR', N'NATR')
 
 
 
@@ -369,7 +345,7 @@ INSERT INTO TouristSpot(TouristSpotId, TouristSpotName, CityId, SubCategoryId, T
 (N'TS_HN_P01', N'Puông Cave', N'VN_HN', N'CAVE', 4.7, 1, N'FM63+V9F, Khang Ninh, Ba Bể, Bắc Kạn', N'/assets/images/TS_HN_P01.png',  324000000000, 612000000000, N'22.462386382210422', N'105.65345765533614'),
 (N'TS_MC_TK01', N'Thung Khe Pass', N'VN_MC', N'HGHLN', 2.5, 1, N'M47P+XRX, Phú Cường, Tân Lạc, Hòa Bình', N'/assets/images/TS_MC_TK01.png', 432000000000, 863400000000, N'20.66610999129284', N'105.13666031533224'),
 (N'TS_HN_DY01', N'Dải Yếm Waterfall', N'VN_HN', N'WTER', 4.1, 1, N'RH8R+3WM, QL43, Mường Sang, Mộc Châu, Sơn La', N'/assets/images/TS_HN_DY01.png',  0, 0, N'20.8154682846861', N'104.59237938133306'),
-
+----
 (N'TS_BJ_TAM01', N'Tiananmen Square', N'CN_BJ', N'STRC', 4, 1, N'Dongcheng', N'/assets/images/TS_BJ_TAM01.png', 180000000000, 792000000000, N'39.90568700215214', N'116.39767461334093'),
 (N'TS_BJ_GWCN01', N'The Great Wall of China', N'CN_BJ', N'STRC', 4.2, 1, N'Huairou District, 101406', N'/assets/images/TS_BJ_GWCN01.png', 324000000000, 594000000000, N'40.43207917650585', N'116.57040708451989'),
 (N'TS_ĐL_DDM01', N'Domain de Marie Church', N'VN_ĐL', N'TEMPL', 4.5, 1, N'13 Trần Phú, Block 3', N'/assets/images/TS_ĐL_DDM01.png', 0, 0, N'11.94966070603777', N'108.43027395065502'),
@@ -398,7 +374,7 @@ INSERT INTO Facility(FacilityId, FacilityName, FacilityTypeId, FacilityLocation,
 (N'FC_CB_BG01', N'Bản Giốc Restaurant', N'RSTR', N'Bản Giốc hamlet, Đàm Thủy commune, Trùng Khánh district', N'VN_CB', 54, N'3 seats per 18 tables', 1, N'/assets/images/FC_CB_BG01.png'),
 (N'FC_MC_EE01', N'88 Hotel', N'HTEL', N'102 Hoàng Quốc Việt street', N'VN_MC', 10, N'5 double rooms, 2 seats per 5 tables', 1, N'/assets/images/FC_MC_EE01.png'),
 (N'FC_MC_BCE01', N'Ba Chị Em Restaurant', N'RSTR', N'Chiềng Sại hamlet', N'VN_MC', 30, N'2 seats per 15 tables', 1, N'/assets/images/FC_MC_BCE01.png'),
-
+----
 (N'FC_BJ_MBT01', N'Mubus Transportation', N'STA_VHC', N'2 Chong Wen Men Nei Street, Dongcheng Dist', N'CN_BJ', 72, N'12 seats per 6 buses', 1, N'/assets/images/FC_BJ_MB01.png'),
 (N'FC_BJ_NBP01', N'Novotel Beijing Peace Hotel', N'HTEL', N'6 Jianguo S Rd, Jian Wai Da Jie, Chaoyang', N'CN_BJ', 18, N'9 double rooms, 8 seats per table', 1, N'/assets/images/FC_BJ_NBP01.png'),
 (N'FC_BJ_BJITN01', N'Beijing Capital International Airport', N'AIRPRT', N' Shunyi District', N'CN_BJ', 120, N'120 seats, 1 plane', 1, N'/assets/images/FC_BJ_BJITN01.png'),
@@ -548,7 +524,6 @@ INSERT INTO TourDetail ([TourDetailName], [Activity], [ActivityTimeStart], [Acti
 (N'Move to Nội Bài Airport', N'Fly back to Nội Bài Airport', CAST(N'2022-10-11T16:50:00.000' AS DateTime), CAST(N'2022-10-11T18:50:00.000' AS DateTime), N'none', N'FC_CR_CR01', NULL, N'T_HNtoNT01'),
 (N'Tour ends', N'Arrive at Nội Bài Airport and board the bus to make your way home', CAST(N'2022-10-11T18:50:00.000' AS DateTime), CAST(N'2022-10-11T21:00:00.000' AS DateTime), N'none', N'FC_HN_TN01', NULL, N'T_HNtoNT01'),
 ----
-
 (N'Tour Start', N'The buses gather at Nội Bài Airport', CAST(N'2023-08-26T05:00:00.000' AS DateTime), CAST(N'2023-08-26T07:00:00.000' AS DateTime), N'none', N'FC_HN_NN01', NULL, N'T_HNtoSG01'),
 (N'Wait for your flight', N'Have break fast, Wait for your flight and check in', CAST(N'2023-08-26T07:00:00.000' AS DateTime), CAST(N'2023-08-26T08:00:00.000' AS DateTime), N'none', N'FC_HN_NB01', NULL, N'T_HNtoSG01'),
 (N'Have lunch on your way to Changi-Singapore International Airport', N'Have lunch on the plane while waiting for arrival', CAST(N'2023-08-26T08:00:00.000' AS DateTime), CAST(N'2023-08-26T12:50:00.000' AS DateTime), N'none', N'FC_HN_NB01', NULL, N'T_HNtoSG01'),
